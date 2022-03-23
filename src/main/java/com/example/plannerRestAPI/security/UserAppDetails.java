@@ -1,6 +1,6 @@
 package com.example.plannerRestAPI.security;
 
-import com.example.plannerRestAPI.models.User;
+import com.example.plannerRestAPI.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
