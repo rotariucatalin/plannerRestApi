@@ -11,6 +11,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class JwtTokenServiceImpl implements JwtTokenService {
 
     private final static SecretKey SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode("fasdasdas213414312csdfASDASDS74756765ASCVBE34534543ZXZXCZXCFGHFGHFGhfgsd4334azxczxAASDASD"));
-    private final static int TOKEN_DURATION = 9;
+    private final static int TOKEN_DURATION = 600000;
 
     @Override
     public String createToken(UserAppDetails userAppDetails, String username) {
@@ -57,9 +58,9 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
-    public Boolean validateToken(UserAppDetails userAppDetails, String jwtToken) {
+    public Boolean validateToken(Principal principal, String jwtToken) {
 
-        if(!userAppDetails.getUsername().equals(extractUsername(jwtToken))) throw new JwtException("Token invalid");
+        if(!principal.getName().equals(extractUsername(jwtToken))) throw new JwtException("Token invalid");
 
         try {
             isTokenExpired(jwtToken);

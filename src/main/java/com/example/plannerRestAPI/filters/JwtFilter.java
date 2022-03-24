@@ -99,6 +99,13 @@ public class JwtFilter extends OncePerRequestFilter {
             response.setContentType("application/json");
             response.getWriter().write(new ObjectMapper().writeValueAsString(apiException));
 
+        } catch(NullPointerException nullPointerException) {
+
+            ApiException apiException = new ApiException("Permission denied!", BAD_REQUEST);
+            response.setStatus(BAD_REQUEST.value());
+            response.setContentType("application/json");
+            response.getWriter().write(new ObjectMapper().writeValueAsString(apiException));
+
         } catch (Exception exception) {
 
             System.out.println(exception.getClass());
