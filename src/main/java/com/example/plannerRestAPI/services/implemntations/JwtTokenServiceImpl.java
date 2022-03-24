@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class JwtTokenServiceImpl implements JwtTokenService {
 
     private final static SecretKey SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode("fasdasdas213414312csdfASDASDS74756765ASCVBE34534543ZXZXCZXCFGHFGHFGhfgsd4334azxczxAASDASD"));
-    private final static int TOKEN_DURATION = 90000;
+    private final static int TOKEN_DURATION = 9;
 
     @Override
     public String createToken(UserAppDetails userAppDetails, String username) {
@@ -59,11 +59,9 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     @Override
     public Boolean validateToken(UserAppDetails userAppDetails, String jwtToken) {
 
-        System.out.println(userAppDetails.getUsername());
+        if(!userAppDetails.getUsername().equals(extractUsername(jwtToken))) throw new JwtException("Token invalid");
 
-        if(!userAppDetails.getUsername().equals("catalin2")) throw new JwtException("Token invalid");
-
-        try{
+        try {
             isTokenExpired(jwtToken);
         } catch (ExpiredJwtException expiredJwtException) {
             throw expiredJwtException;

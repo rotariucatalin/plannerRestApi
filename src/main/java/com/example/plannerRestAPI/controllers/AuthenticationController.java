@@ -27,8 +27,8 @@ public class AuthenticationController {
     @Autowired
     private JwtTokenService jwtTokenService;
 
-    @PostMapping()
-    public ResponseEntity<?> test(@RequestBody AuthenticationRequest authenticationRequest) throws ApiRequestException {
+    @PostMapping
+    public ResponseEntity<?> generateToken(@RequestBody AuthenticationRequest authenticationRequest) throws ApiRequestException {
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         String token;
