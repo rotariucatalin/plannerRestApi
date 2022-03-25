@@ -8,6 +8,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -54,7 +55,21 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     @Override
     public String updateTokenExpirationDate(String jwtToken) {
-        return null;
+
+        final Claims claims = extractAllClaims(jwtToken);
+        Date tokenStartTime = new Date(System.currentTimeMillis());
+        Date tokenExpirationTime = new Date(System.currentTimeMillis() + TOKEN_DURATION);
+
+        String jwtTokenRegenerated = Jwts
+                .builder()
+                .setHeaderParam("typ","JWT")
+                .addClaims(claims)
+                .setIssuedAt(tokenStartTime)
+                .setExpiration(tokenExpirationTime)
+                .signWith(SECRET_KEY)
+                .compact();
+
+        return jwtTokenRegenerated;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.plannerRestAPI.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -12,6 +13,8 @@ public class User {
     private String username;
     private String password;
     private String email;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Authority> authorities;
 
     public int getId() {
         return id;
@@ -43,5 +46,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
     }
 }
