@@ -1,6 +1,9 @@
 package com.example.plannerRestAPI.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Authority {
@@ -9,12 +12,13 @@ public class Authority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_authority",
-            joinColumns = @JoinColumn(name = "id_authority"),
-            inverseJoinColumns = @JoinColumn(name = "id_user")
+        joinColumns = @JoinColumn(name = "id_authority", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id")
     )
-    private User user;
+    @JsonIgnore
+    private List<User> users;
 
     public int getId() {
         return id;
@@ -32,11 +36,11 @@ public class Authority {
         this.name = name;
     }
 
-    public User getUser() {
-        return user;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

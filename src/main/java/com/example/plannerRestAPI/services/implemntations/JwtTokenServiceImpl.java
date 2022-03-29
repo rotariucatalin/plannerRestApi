@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class JwtTokenServiceImpl implements JwtTokenService {
 
     private final static SecretKey SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode("fasdasdas213414312csdfASDASDS74756765ASCVBE34534543ZXZXCZXCFGHFGHFGhfgsd4334azxczxAASDASD"));
-    private final static int TOKEN_DURATION = 600000;
+    private final static int TOKEN_DURATION = 600000000;
 
     @Override
     public String createToken(UserAppDetails userAppDetails, String username) {

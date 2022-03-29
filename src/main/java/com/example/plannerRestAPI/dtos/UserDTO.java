@@ -1,22 +1,14 @@
-package com.example.plannerRestAPI.entities;
+package com.example.plannerRestAPI.dtos;
 
-import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-@Entity
-@Table(name = "users")
-public class User {
+public class UserDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String username;
     private String password;
     private String email;
-    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
-    private List<Authority> authorities;
+    private List<AuthorityDTO> authorities;
 
     public int getId() {
         return id;
@@ -50,11 +42,22 @@ public class User {
         this.email = email;
     }
 
-    public List<Authority> getAuthorities() {
+    public List<AuthorityDTO> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
+    public void setAuthorities(List<AuthorityDTO> authorities) {
         this.authorities = authorities;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", authorities=" + authorities +
+                '}';
     }
 }
