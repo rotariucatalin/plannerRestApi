@@ -1,6 +1,5 @@
 package com.example.plannerRestAPI.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;

@@ -19,5 +19,5 @@ public interface AuthorityService {
     void deleteAuthority(int id) throws ApiRequestException;
     List<UserAuthorityDTO> updateAuthorityForUser(Integer id) throws ApiRequestException;
     void removeAuthorityForAllUsers(Integer id) throws ApiRequestException;
-    void addAuthorityForAllUsers();
+    void addAuthorityForAllUsers(Integer id) throws ApiRequestException;
 }

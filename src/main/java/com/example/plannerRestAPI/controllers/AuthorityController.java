@@ -5,6 +5,7 @@ import com.example.plannerRestAPI.dtos.UserAuthorityDTO;
 import com.example.plannerRestAPI.exceptions.ApiRequestException;
 import com.example.plannerRestAPI.models.CustomApiResponse;
 import com.example.plannerRestAPI.services.AuthorityService;
+import com.example.plannerRestAPI.services.UserAppService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,9 +52,7 @@ public class AuthorityController {
     @DeleteMapping(value = "/deleteAuthority/{id}")
     public ResponseEntity<CustomApiResponse> deleteAuthority(@PathVariable(value = "id") int id) throws ApiRequestException {
 
-        authorityService.findAuthority(id).orElseThrow( () -> new ApiRequestException("Authority not found!") );
         authorityService.deleteAuthority(id);
-
         CustomApiResponse customApiResponse = new CustomApiResponse("Authority deleted!", OK);
 
         return new ResponseEntity<>(customApiResponse, OK);
@@ -83,12 +82,11 @@ public class AuthorityController {
     }
 
     @PutMapping(value = "/addAuthorityForAllUsers/{id}")
-    public ResponseEntity<CustomApiResponse> addAuthorityForAllUsers(@PathVariable(name = "id") int id) {
+    public ResponseEntity<CustomApiResponse> addAuthorityForAllUsers(@PathVariable(name = "id") int id) throws ApiRequestException {
 
-        /*
-        TODO make this method after the user functionality is added!
-         */
+        authorityService.addAuthorityForAllUsers(id);
+        CustomApiResponse customApiResponse = new CustomApiResponse("Authority added successfully for all users!", OK);
 
-        return null;
+        return new ResponseEntity<>(customApiResponse, OK);
     }
 }
