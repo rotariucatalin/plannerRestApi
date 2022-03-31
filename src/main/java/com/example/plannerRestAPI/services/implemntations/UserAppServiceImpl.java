@@ -3,6 +3,7 @@ package com.example.plannerRestAPI.services.implemntations;
 import com.example.plannerRestAPI.dtos.AuthorityDTO;
 import com.example.plannerRestAPI.dtos.UserAuthorityDTO;
 import com.example.plannerRestAPI.dtos.UserDTO;
+import com.example.plannerRestAPI.entities.Authority;
 import com.example.plannerRestAPI.entities.User;
 import com.example.plannerRestAPI.exceptions.ApiRequestException;
 import com.example.plannerRestAPI.repositories.UserAppRepository;
@@ -142,5 +143,61 @@ public class UserAppServiceImpl implements UserAppService {
         userAuthorityDTO.setAuthorityList(authorityDTOList);
 
         return userAuthorityDTO;
+    }
+
+    @Override
+    public List<AuthorityDTO> addAuthorityForUser(Integer id, List<AuthorityDTO> authorityDTOS) throws ApiRequestException {
+
+        User user = userAppRepository.findById(id).orElseThrow(() -> new ApiRequestException("User not found!"));
+        List<Authority> authorities = new ArrayList<>();
+        List<AuthorityDTO> authorityDTOList = new ArrayList<>();
+
+        removeAllAuthorityForUser(id);
+
+        authorityDTOS.forEach(authorityDTO -> {
+
+            Authority authority = new Authority();
+            authority.setId(authorityDTO.getId());
+            authorities.add(authority);
+
+        });
+
+        user.setAuthorities(authorities);
+
+        try {
+
+            User saveUser = userAppRepository.save(user);
+            saveUser.getAuthorities().forEach(authority -> {
+
+                AuthorityDTO authorityDTO = new AuthorityDTO();
+                authorityDTO.setId(authority.getId());
+                authorityDTO.setName(authority.getName());
+
+                authorityDTOList.add(authorityDTO);
+            });
+
+        } catch (Exception exception) {
+            throw new ApiRequestException("User not added for this user. This is the error " + exception.getMessage() );
+        }
+
+        return authorityDTOList;
+    }
+
+    @Override
+    public List<AuthorityDTO> updateAuthorityForUser(Integer id, List<AuthorityDTO> authorityDTOS) throws ApiRequestException {
+        return addAuthorityForUser(id, authorityDTOS);
+    }
+
+    @Override
+    public void removeAllAuthorityForUser(Integer id) throws ApiRequestException {
+
+        User user = userAppRepository.findById(id).orElseThrow(() -> new ApiRequestException("User not found!"));
+        user.setAuthorities(null);
+
+        try {
+            userAppRepository.save(user);
+        } catch (Exception exception) {
+            throw new ApiRequestException("Authority not delete for user. This is the error " + exception.getMessage());
+        }
     }
 }

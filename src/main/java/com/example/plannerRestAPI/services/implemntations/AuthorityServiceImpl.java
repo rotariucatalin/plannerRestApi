@@ -2,6 +2,7 @@ package com.example.plannerRestAPI.services.implemntations;
 
 import com.example.plannerRestAPI.dtos.AuthorityDTO;
 import com.example.plannerRestAPI.dtos.UserAuthorityDTO;
+import com.example.plannerRestAPI.dtos.UserDTO;
 import com.example.plannerRestAPI.entities.Authority;
 import com.example.plannerRestAPI.entities.User;
 import com.example.plannerRestAPI.exceptions.ApiRequestException;
@@ -133,14 +134,26 @@ public class AuthorityServiceImpl implements AuthorityService {
     }
 
     @Override
-    public List<UserAuthorityDTO> updateAuthorityForUser(Integer id) throws ApiRequestException {
+    public List<UserAuthorityDTO> updateAuthorityForUser(Integer id, List<UserDTO> userDTOList) throws ApiRequestException {
 
         List<User> users = new ArrayList<>();
         List<UserAuthorityDTO> userAuthorityList = new ArrayList<>();
 
+
+
         try {
             Authority authority = findAuthoritiesById(id);
             authority.getUsers().stream().forEach(user -> users.add(user));
+
+            userDTOList.forEach(userDTO -> {
+
+                User user = new User();
+                user.setId(userDTO.getId());
+                users.add(user);
+
+            });
+
+
             authority.setUsers(users);
             authorityRepository.save(authority);
 

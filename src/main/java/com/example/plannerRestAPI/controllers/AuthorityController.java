@@ -2,6 +2,7 @@ package com.example.plannerRestAPI.controllers;
 
 import com.example.plannerRestAPI.dtos.AuthorityDTO;
 import com.example.plannerRestAPI.dtos.UserAuthorityDTO;
+import com.example.plannerRestAPI.dtos.UserDTO;
 import com.example.plannerRestAPI.exceptions.ApiRequestException;
 import com.example.plannerRestAPI.models.CustomApiResponse;
 import com.example.plannerRestAPI.services.AuthorityService;
@@ -66,9 +67,9 @@ public class AuthorityController {
     }
 
     @PutMapping(value = "/updateAuthorityForUser/{id}")
-    public ResponseEntity<List<UserAuthorityDTO>> updateAuthorityForUser(@PathVariable(value = "id") int id) throws ApiRequestException {
+    public ResponseEntity<List<UserAuthorityDTO>> updateAuthorityForUser(@PathVariable(value = "id") int id, @RequestBody List<UserDTO> userDTO) throws ApiRequestException {
 
-        List<UserAuthorityDTO> userAuthorityList = authorityService.updateAuthorityForUser(id);
+        List<UserAuthorityDTO> userAuthorityList = authorityService.updateAuthorityForUser(id, userDTO);
         return new ResponseEntity<>(userAuthorityList, OK);
     }
 

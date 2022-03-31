@@ -1,5 +1,6 @@
 package com.example.plannerRestAPI.controllers;
 
+import com.example.plannerRestAPI.dtos.AuthorityDTO;
 import com.example.plannerRestAPI.dtos.UserAuthorityDTO;
 import com.example.plannerRestAPI.dtos.UserDTO;
 import com.example.plannerRestAPI.exceptions.ApiRequestException;
@@ -65,5 +66,29 @@ public class UserController {
         UserAuthorityDTO userAuthorityDTO = userAppService.getAuthorityForUser(id);
 
         return new ResponseEntity<>(userAuthorityDTO, OK);
+    }
+
+    @PutMapping(value = "/addAuthorityForUser/{id}")
+    public ResponseEntity<List<AuthorityDTO>> addAuthorityForUser(@PathVariable(value = "id") int id, @RequestBody List<AuthorityDTO> authorityDTOS) throws ApiRequestException {
+
+        List<AuthorityDTO> addAuthorityForUser = userAppService.addAuthorityForUser(id, authorityDTOS);
+
+        return new ResponseEntity<>(addAuthorityForUser, OK);
+    }
+
+    @PutMapping(value = "/updateAuthorityForUser/{id}")
+    public ResponseEntity<List<AuthorityDTO>> updateAuthorityForUser(@PathVariable(value = "id") int id, @RequestBody List<AuthorityDTO> authorityDTOS) throws ApiRequestException {
+
+        List<AuthorityDTO> updateAuthorityForUser = userAppService.updateAuthorityForUser(id, authorityDTOS);
+        return new ResponseEntity<>(updateAuthorityForUser, OK);
+    }
+
+    @PutMapping(value = "/deleteAuthorityForUser/{id}")
+    public ResponseEntity<CustomApiResponse> deleteAuthorityForUser(@PathVariable(value = "id") int id) throws ApiRequestException {
+
+        userAppService.removeAllAuthorityForUser(id);
+        CustomApiResponse customApiResponse = new CustomApiResponse("All authorities are removed!", OK);
+
+        return new ResponseEntity<>(customApiResponse, OK);
     }
 }
