@@ -12,6 +12,7 @@ public class UserDTO {
     private String password;
     private String email;
     private List<AuthorityDTO> authorities;
+    private ContactDTO contactDTO;
 
     public UserDTO() {
 
@@ -63,6 +64,14 @@ public class UserDTO {
         this.authorities = authorities;
     }
 
+    public ContactDTO getContactDTO() {
+        return contactDTO;
+    }
+
+    public void setContactDTO(ContactDTO contactDTO) {
+        this.contactDTO = contactDTO;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -71,6 +80,7 @@ public class UserDTO {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", authorities=" + authorities +
+                ", contactDTO=" + contactDTO +
                 '}';
     }
 }
