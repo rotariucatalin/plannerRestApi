@@ -2,10 +2,12 @@ package com.example.plannerRestAPI.services.implemntations;
 
 import com.example.plannerRestAPI.dtos.AuthorityDTO;
 import com.example.plannerRestAPI.dtos.UserAuthorityDTO;
+import com.example.plannerRestAPI.dtos.UserDTO;
 import com.example.plannerRestAPI.entities.Authority;
 import com.example.plannerRestAPI.entities.User;
 import com.example.plannerRestAPI.exceptions.ApiRequestException;
 import com.example.plannerRestAPI.repositories.AuthorityRepository;
+import com.example.plannerRestAPI.repositories.UserAppRepository;
 import com.example.plannerRestAPI.services.AuthorityService;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +20,11 @@ import java.util.stream.Collectors;
 public class AuthorityServiceImpl implements AuthorityService {
 
     private final AuthorityRepository authorityRepository;
+    private final UserAppRepository userAppRepository;
 
-    public AuthorityServiceImpl(AuthorityRepository authorityRepository) {
+    public AuthorityServiceImpl(AuthorityRepository authorityRepository, UserAppRepository userAppRepository) {
         this.authorityRepository = authorityRepository;
+        this.userAppRepository = userAppRepository;
     }
 
     @Override
@@ -89,6 +93,8 @@ public class AuthorityServiceImpl implements AuthorityService {
     @Override
     public void deleteAuthority(int id) throws ApiRequestException {
 
+        findAuthority(id).orElseThrow( () -> new ApiRequestException("Authority not found!") );
+
         try {
             authorityRepository.deleteById(id);
         } catch (Exception exception) {
@@ -128,14 +134,26 @@ public class AuthorityServiceImpl implements AuthorityService {
     }
 
     @Override
-    public List<UserAuthorityDTO> updateAuthorityForUser(Integer id) throws ApiRequestException {
+    public List<UserAuthorityDTO> updateAuthorityForUser(Integer id, List<UserDTO> userDTOList) throws ApiRequestException {
 
         List<User> users = new ArrayList<>();
         List<UserAuthorityDTO> userAuthorityList = new ArrayList<>();
 
+
+
         try {
             Authority authority = findAuthoritiesById(id);
             authority.getUsers().stream().forEach(user -> users.add(user));
+
+            userDTOList.forEach(userDTO -> {
+
+                User user = new User();
+                user.setId(userDTO.getId());
+                users.add(user);
+
+            });
+
+
             authority.setUsers(users);
             authorityRepository.save(authority);
 
@@ -175,7 +193,19 @@ public class AuthorityServiceImpl implements AuthorityService {
     }
 
     @Override
-    public void addAuthorityForAllUsers() {
+    public void addAuthorityForAllUsers(Integer id) throws ApiRequestException {
+
+        Authority authority = authorityRepository.findById(id).orElseThrow(() -> new ApiRequestException("No authority found"));
+
+        try {
+
+            List<User> userList = userAppRepository.findAll();
+            authority.setUsers(userList);
+            authorityRepository.save(authority);
+
+        } catch (Exception exception) {
+            throw new ApiRequestException("Authority not added for all users! This is the error " + exception.getMessage());
+        }
 
     }
 }

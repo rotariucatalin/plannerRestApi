@@ -2,6 +2,7 @@ package com.example.plannerRestAPI.services;
 
 import com.example.plannerRestAPI.dtos.AuthorityDTO;
 import com.example.plannerRestAPI.dtos.UserAuthorityDTO;
+import com.example.plannerRestAPI.dtos.UserDTO;
 import com.example.plannerRestAPI.entities.Authority;
 import com.example.plannerRestAPI.exceptions.ApiRequestException;
 
@@ -17,7 +18,7 @@ public interface AuthorityService {
     Authority findAuthoritiesById(Integer id);
     List<UserAuthorityDTO> getAllUsersForAuthority(Integer id) throws ApiRequestException;
     void deleteAuthority(int id) throws ApiRequestException;
-    List<UserAuthorityDTO> updateAuthorityForUser(Integer id) throws ApiRequestException;
+    List<UserAuthorityDTO> updateAuthorityForUser(Integer id, List<UserDTO> userDTO) throws ApiRequestException;
     void removeAuthorityForAllUsers(Integer id) throws ApiRequestException;
-    void addAuthorityForAllUsers();
+    void addAuthorityForAllUsers(Integer id) throws ApiRequestException;
 }

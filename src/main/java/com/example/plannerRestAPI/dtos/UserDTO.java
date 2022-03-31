@@ -1,7 +1,10 @@
 package com.example.plannerRestAPI.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 
     private int id;
@@ -9,6 +12,16 @@ public class UserDTO {
     private String password;
     private String email;
     private List<AuthorityDTO> authorities;
+
+    public UserDTO() {
+
+    }
+
+    public UserDTO(int id, String username, String email) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+    }
 
     public int getId() {
         return id;

@@ -15,7 +15,11 @@ public class User {
     private String username;
     private String password;
     private String email;
-    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_authority",
+            joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_authority", referencedColumnName = "id")
+    )
     private List<Authority> authorities;
 
     public int getId() {
