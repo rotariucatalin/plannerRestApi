@@ -2,12 +2,12 @@ package com.example.plannerRestAPI.models;
 
 import org.springframework.http.HttpStatus;
 
-public class CustomApiResponse {
+public class ApiResponse {
 
     private String message;
     private HttpStatus httpStatus;
 
-    public CustomApiResponse(String message, HttpStatus httpStatus) {
+    public ApiResponse(String message, HttpStatus httpStatus) {
         this.message = message;
         this.httpStatus = httpStatus;
     }

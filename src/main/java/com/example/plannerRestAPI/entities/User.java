@@ -24,6 +24,9 @@ public class User {
             joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "id_contact", referencedColumnName = "id"))
     private Contact contact;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "added_by", referencedColumnName = "id")
+    private List<BuildingDocumentation> buildingDocumentationList;
 
     public int getId() {
         return id;
@@ -71,5 +74,13 @@ public class User {
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    public List<BuildingDocumentation> getBuildingDocumentationList() {
+        return buildingDocumentationList;
+    }
+
+    public void setBuildingDocumentationList(List<BuildingDocumentation> buildingDocumentationList) {
+        this.buildingDocumentationList = buildingDocumentationList;
     }
 }

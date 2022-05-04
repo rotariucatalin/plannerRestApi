@@ -14,6 +14,11 @@ public class ContactDTO {
     public ContactDTO() {
     }
 
+    public ContactDTO(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public ContactDTO(int id, String firstName, String lastName, String city) {
         this.id = id;
         this.firstName = firstName;

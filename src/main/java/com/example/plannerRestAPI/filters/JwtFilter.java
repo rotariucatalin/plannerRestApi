@@ -47,6 +47,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 //Check if there are to many requests
 
             } else {
+
                 if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 
                     token = authorizationHeader.substring(7);

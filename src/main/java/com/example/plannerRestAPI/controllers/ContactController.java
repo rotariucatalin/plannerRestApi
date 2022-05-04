@@ -1,8 +1,8 @@
 package com.example.plannerRestAPI.controllers;
 
 import com.example.plannerRestAPI.dtos.ContactDTO;
-import com.example.plannerRestAPI.entities.Contact;
 import com.example.plannerRestAPI.exceptions.ApiRequestException;
+import com.example.plannerRestAPI.models.ApiResponse;
 import com.example.plannerRestAPI.services.ContactService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +40,21 @@ public class ContactController {
 
         ContactDTO newContact = contactService.addNewContact(contactDTO);
         return new ResponseEntity<>(newContact, OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<ContactDTO> updateContact(@RequestBody ContactDTO contactDTO) throws ApiRequestException {
+
+        ContactDTO updateContact = contactService.updateContact(contactDTO);
+        return new ResponseEntity<>(updateContact, OK);
+    }
+
+    @DeleteMapping(value = "/deleteContact/{id}")
+    public ResponseEntity<ApiResponse> deleteContact(@PathVariable(name = "id") int id) throws ApiRequestException {
+
+        contactService.deleteContact(id);
+        ApiResponse apiResponse = new ApiResponse("Contact deleted successfully!", OK);
+
+        return new ResponseEntity<>(apiResponse,OK);
     }
 }
