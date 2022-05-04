@@ -4,9 +4,8 @@ import com.example.plannerRestAPI.dtos.AuthorityDTO;
 import com.example.plannerRestAPI.dtos.UserAuthorityDTO;
 import com.example.plannerRestAPI.dtos.UserDTO;
 import com.example.plannerRestAPI.exceptions.ApiRequestException;
-import com.example.plannerRestAPI.models.CustomApiResponse;
+import com.example.plannerRestAPI.models.ApiResponse;
 import com.example.plannerRestAPI.services.AuthorityService;
-import com.example.plannerRestAPI.services.UserAppService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,12 +50,12 @@ public class AuthorityController {
     }
 
     @DeleteMapping(value = "/deleteAuthority/{id}")
-    public ResponseEntity<CustomApiResponse> deleteAuthority(@PathVariable(value = "id") int id) throws ApiRequestException {
+    public ResponseEntity<ApiResponse> deleteAuthority(@PathVariable(value = "id") int id) throws ApiRequestException {
 
         authorityService.deleteAuthority(id);
-        CustomApiResponse customApiResponse = new CustomApiResponse("Authority deleted!", OK);
+        ApiResponse apiResponse = new ApiResponse("Authority deleted!", OK);
 
-        return new ResponseEntity<>(customApiResponse, OK);
+        return new ResponseEntity<>(apiResponse, OK);
     }
 
     @GetMapping(value = "/getAllUsersForAuthority/{id}")
@@ -74,20 +73,20 @@ public class AuthorityController {
     }
 
     @PutMapping(value = "/removeAuthorityForAllUsers/{id}")
-    public ResponseEntity<CustomApiResponse> removeAuthorityForAllUsers(@PathVariable(name = "id") int id) throws ApiRequestException {
+    public ResponseEntity<ApiResponse> removeAuthorityForAllUsers(@PathVariable(name = "id") int id) throws ApiRequestException {
 
         authorityService.removeAuthorityForAllUsers(id);
-        CustomApiResponse customApiResponse = new CustomApiResponse("Authority removed for all users", OK);
+        ApiResponse apiResponse = new ApiResponse("Authority removed for all users", OK);
 
-        return new ResponseEntity<>(customApiResponse, OK);
+        return new ResponseEntity<>(apiResponse, OK);
     }
 
     @PutMapping(value = "/addAuthorityForAllUsers/{id}")
-    public ResponseEntity<CustomApiResponse> addAuthorityForAllUsers(@PathVariable(name = "id") int id) throws ApiRequestException {
+    public ResponseEntity<ApiResponse> addAuthorityForAllUsers(@PathVariable(name = "id") int id) throws ApiRequestException {
 
         authorityService.addAuthorityForAllUsers(id);
-        CustomApiResponse customApiResponse = new CustomApiResponse("Authority added successfully for all users!", OK);
+        ApiResponse apiResponse = new ApiResponse("Authority added successfully for all users!", OK);
 
-        return new ResponseEntity<>(customApiResponse, OK);
+        return new ResponseEntity<>(apiResponse, OK);
     }
 }

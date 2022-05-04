@@ -4,7 +4,7 @@ import com.example.plannerRestAPI.dtos.AuthorityDTO;
 import com.example.plannerRestAPI.dtos.UserAuthorityDTO;
 import com.example.plannerRestAPI.dtos.UserDTO;
 import com.example.plannerRestAPI.exceptions.ApiRequestException;
-import com.example.plannerRestAPI.models.CustomApiResponse;
+import com.example.plannerRestAPI.models.ApiResponse;
 import com.example.plannerRestAPI.services.UserAppService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,12 +52,12 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/deleteUser/{id}")
-    public ResponseEntity<CustomApiResponse> deleteUser(@PathVariable(value = "id") int id) throws ApiRequestException {
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable(value = "id") int id) throws ApiRequestException {
 
         userAppService.deleteUser(id);
-        CustomApiResponse customApiResponse = new CustomApiResponse("User deleted successfully!", OK);
+        ApiResponse apiResponse = new ApiResponse("User deleted successfully!", OK);
 
-        return new ResponseEntity<>(customApiResponse, OK);
+        return new ResponseEntity<>(apiResponse, OK);
     }
 
     @GetMapping(value = "/getAuthorityForUser/{id}")
@@ -84,11 +84,11 @@ public class UserController {
     }
 
     @PutMapping(value = "/deleteAuthorityForUser/{id}")
-    public ResponseEntity<CustomApiResponse> deleteAuthorityForUser(@PathVariable(value = "id") int id) throws ApiRequestException {
+    public ResponseEntity<ApiResponse> deleteAuthorityForUser(@PathVariable(value = "id") int id) throws ApiRequestException {
 
         userAppService.removeAllAuthorityForUser(id);
-        CustomApiResponse customApiResponse = new CustomApiResponse("All authorities are removed!", OK);
+        ApiResponse apiResponse = new ApiResponse("All authorities are removed!", OK);
 
-        return new ResponseEntity<>(customApiResponse, OK);
+        return new ResponseEntity<>(apiResponse, OK);
     }
 }
